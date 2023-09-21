@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Home_Training</string>
+    <string name="title_home">홈</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_community">커뮤니티\n</string>
+    <string name="title_profile">내 정보</string>
+    <string name="title_settings">설정</string>
+</resources>
