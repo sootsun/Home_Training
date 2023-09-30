@@ -13,6 +13,8 @@
         android:gravity="center"
         android:text="LOGIN"
         android:textColor="#FF9800"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="20dp"
         android:textSize="24sp">
 
     </TextView>
@@ -22,39 +24,55 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@null"
-        android:src="@mipmap/ic_launcher">
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginBottom="70dp">
 
     </ImageView>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:backgroundTint="#FF9800"
-        android:textColor="#FF9800"
-        android:hint="ID"
-        android:textColorHighlight="#FDFDFD"
-        android:textColorLink="#FFFFFF">
+        android:layout_height="wrap_content">
 
-    </EditText>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ediId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#00FFFFFF"
+            android:hint="ID"
+            android:textColor="#FF9800">
 
-    <EditText
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:backgroundTint="#FF9800"
-        android:hint="Password"
-        android:textColor="#FFFFFF">
+        android:layout_height="wrap_content">
 
-    </EditText>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ediPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#00FFFFFF"
+            android:hint="PASSWORD"
+            android:textColor="#FF9800">
 
-    <Button
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <android.widget.Button
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bin_orange"
         android:text="로그인"
         android:textColor="#ffffff"
-        app:iconTint="#00915700">
+        app:iconTint="#00915700"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp">
 
-    </Button>
+    </android.widget.Button>
 
 
     <LinearLayout
@@ -64,20 +82,24 @@
         android:weightSum="10">
 
         <TextView
+            android:id="@+id/findPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:gravity="center"
-            android:text="비밀번호 찾기">
+            android:text="비밀번호 찾기"
+            android:textColor="#ff9800">
 
         </TextView>
 
         <TextView
+            android:id="@+id/signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:gravity="center"
-            android:text="회원가입">
+            android:text="회원가입"
+            android:textColor="#ff9800">
 
         </TextView>
 
