@@ -1,4 +1,4 @@
-package com.example.home_training.ui.notifications;
+package com.example.home_training.ui.mypage;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.home_training.databinding.FragmentMypageBinding;
 import com.example.home_training.databinding.FragmentNotificationsBinding;
+import com.example.home_training.ui.notifications.NotificationsViewModel;
 
-public class NotificationsFragment extends Fragment {
+public class MypageFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private @NonNull FragmentMypageBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        MypageViewModel mypageViewModel =
+                new ViewModelProvider(this).get(MypageViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentMypageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 

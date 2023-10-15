@@ -18,8 +18,16 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/navogation_mypage"
+        android:name="com.example.home_training.ui.mypage.MypageFragment"
+        android:label="마이페이지"
+        tools:layout="@layout/fragment_mypage"/>
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.home_training.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+
 </navigation>

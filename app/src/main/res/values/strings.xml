@@ -6,4 +6,13 @@
     <string name="title_community">커뮤니티\n</string>
     <string name="title_profile">내 정보</string>
     <string name="title_settings">설정</string>
+    <string name="Level">레벨</string>
+    <string name="point">포인트</string>
+    <string name="nickname">닉네임</string>
+    <string name="idcode">ID코드</string>
+    <string name="logout">로그아웃</string>
+    <string name="setting">설정</string>
+    <string name="announce">공지사항</string>
+    <string name="event">이벤트</string>
+    <string name="point_shop">포인트 상점</string>
 </resources>
