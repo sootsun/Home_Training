@@ -13,9 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.home_training.R;
 
+import okhttp3.FormBody;
+
 public class Signup extends AppCompatActivity {
+    private String serverUrl = "http://3.39.230.215:4000/user/login";
+
     TextView back;
-    EditText name, id, pw, pw2, email, birthyear, birthdate, birthday;
+    EditText name, id, pw, pw2, email, birthYear, birthMonth, birthDay;
     Button pwcheck, submit;
 
     @Override
@@ -33,9 +37,9 @@ public class Signup extends AppCompatActivity {
         pw = findViewById(R.id.signPassword);
         pw2 = findViewById(R.id.signPW2);
         email = findViewById(R.id.signMail);
-        birthyear = findViewById(R.id.signBirth);
-        birthdate = findViewById(R.id.signBirth2);
-        birthday = findViewById(R.id.signBirth3);
+        birthYear = findViewById(R.id.signBirth);
+        birthMonth = findViewById(R.id.signBirth2);
+        birthDay = findViewById(R.id.signBirth3);
 
         //비밀번호 확인 버튼
         pwcheck = findViewById(R.id.pwCheckButton);
@@ -48,9 +52,21 @@ public class Signup extends AppCompatActivity {
             }
         });
 
+
+
         //회원가입 완료 버튼
         submit = findViewById(R.id.signupbutton);
         submit.setOnClickListener(v -> {
+            FormBody formBody = new FormBody.Builder()
+                    .add("name", String.valueOf(name))
+                    .add("id", String.valueOf(id))
+                    .add("password", String.valueOf(pw))
+                    .add("email", String.valueOf(email))
+                    .add("birthyear", String.valueOf(birthYear))
+                    .add("birthmonth", String.valueOf(birthMonth))
+                    .add("birthday", String.valueOf(birthDay))
+                    .build();
+
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         });

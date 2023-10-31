@@ -56,14 +56,13 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Signup.class);
             startActivity(intent);
         });
-
+        // 로그인 버튼을 눌러 id및 password 인증
         loginButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 String id = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                Toast.makeText(LoginActivity.this, id, Toast.LENGTH_SHORT).show();
 
                 //HTTP POST 요청을 사용하여 로그인 요청을 서버에 전송
                 FormBody formBody = new FormBody.Builder()
