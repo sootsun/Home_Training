@@ -27,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class Signup extends AppCompatActivity {
-    private String serverUrl = "http://43.201.96.17:4000/user/login";
+    private String serverUrl = "http://43.201.96.17:4000/user/new-user";
     private OkHttpClient client = new OkHttpClient();
 
     TextView back;
