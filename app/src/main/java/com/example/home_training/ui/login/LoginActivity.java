@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.home_training.MainActivity;
 import com.example.home_training.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText usernameEditText, passwordEditText;
     private Button loginButton;
     private OkHttpClient client = new OkHttpClient();
-    private String serverUrl = "http://3.39.230.215:4000/user/login";
+    private String serverUrl = "http://43.201.96.17:4000/user/login";
     TextView sign;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -100,6 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                                     if(success){
                                         // 로그인 성공
                                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
                                     }else{
                                         // 로그인 실패
                                         Toast.makeText(LoginActivity.this, "로그인 실패: "+ message, Toast.LENGTH_SHORT).show();
