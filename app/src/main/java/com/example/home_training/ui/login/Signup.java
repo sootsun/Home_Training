@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class Signup extends AppCompatActivity {
-    private String serverUrl = "http://43.201.96.17:4000/user/new-user";
+    private String serverUrl = "http://15.164.103.132:4000/user/new-user";
     private OkHttpClient client = new OkHttpClient();
 
     TextView back;
@@ -123,6 +124,7 @@ public class Signup extends AppCompatActivity {
                                     // 회원가입 실패
                                     Toast.makeText(Signup.this, "정보 입력 누락: " + message, Toast.LENGTH_SHORT).show();
                                 }
+                                return;
                             }
                         });
                     } catch (JSONException e) {

@@ -32,7 +32,7 @@ import okhttp3.Response;
 
 public class FindPassword extends AppCompatActivity {
 
-    private String serverUrl = "http://43.201.96.17:4000/user";
+    private String serverUrl = "http://15.164.103.132:4000/user";
     private OkHttpClient client = new OkHttpClient();
 
     EditText checkid, checkname, newPW, newPW2;
@@ -98,7 +98,7 @@ public class FindPassword extends AppCompatActivity {
                             @Override
                             public void run() {
                                 if (success) {
-                                    // 비밀번호 찾기 성공
+                                    // 비밀번호 찾기 성공, 비밀번호 재설정 시작
                                     verifyLayout.setVisibility(View.INVISIBLE);
                                     newPwLayout.setVisibility(View.VISIBLE);
 
@@ -154,6 +154,7 @@ public class FindPassword extends AppCompatActivity {
                                                                 // 비밀번호 재설정 실패
                                                                 Toast.makeText(FindPassword.this, message, Toast.LENGTH_SHORT).show();
                                                             }
+                                                            return;
                                                         }
                                                     });
                                                 } catch (JSONException e) {
@@ -167,6 +168,7 @@ public class FindPassword extends AppCompatActivity {
                                     // 실패
                                     Toast.makeText(FindPassword.this, "해당 이름, 혹은 아이디가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                                 }
+                                return;
                             }
                         });
                     } catch (JSONException e) {

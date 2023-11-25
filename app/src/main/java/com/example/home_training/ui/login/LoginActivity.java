@@ -36,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText usernameEditText, passwordEditText;
     private Button loginButton;
     private OkHttpClient client = new OkHttpClient();
-    private String serverUrl = "http://43.201.96.17:4000/user/login";
-    TextView sign;
+    private String serverUrl = "http://15.164.103.132:4000/user/login";
+    TextView sign, findPassword;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +57,16 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Signup.class);
             startActivity(intent);
         });
+
+        // 비밀번호 찾기 버튼
+        findPassword = findViewById(R.id.findPassword);
+
+        // 비밀번호 찾기 버튼 클릭시, 비밀번호 찾기 페이지로 이동
+        findPassword.setOnClickListener(v ->{
+            Intent intent = new Intent(this, FindPassword.class);
+            startActivity(intent);
+        });
+
         // 로그인 버튼을 눌러 id및 password 인증
         loginButton.setOnClickListener(new View.OnClickListener(){
 
@@ -64,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String id = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+
 
                 //HTTP POST 요청을 사용하여 로그인 요청을 서버에 전송
                 FormBody formBody = new FormBody.Builder()
@@ -102,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                                         // 로그인 성공
                                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("userId", id);
                                         startActivity(intent);
                                     }else{
                                         // 로그인 실패
