@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText usernameEditText, passwordEditText;
     private Button loginButton;
     private OkHttpClient client = new OkHttpClient();
-    private String serverUrl = "http://15.164.103.132:4000/user/login";
+    private String serverUrl = "http://13.124.143.232:4000/user/login";
     TextView sign, findPassword;
     @SuppressLint("MissingInflatedId")
     @Override

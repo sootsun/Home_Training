@@ -10,42 +10,51 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.home_training.R;
 import com.example.home_training.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private TextView notification, event, pointShop;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        TextView floatingActionButton = view.findViewById(R.id.floatingActionButton);
-        TextView event = getView().findViewById(R.id.event);
+        notification = view.findViewById(R.id.floatingActionButton);
+        event = view.findViewById(R.id.event);
+        pointShop = view.findViewById(R.id.point_shop);
 
-
- /*       floatingActionButton.setOnClickListener(new View.OnClickListener(){
-
+        notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NotificationsFragment.this, notification.class);
-                startActivity(intent);
+
             }
-        });*/
+        });
 
-        return null;
+        event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        pointShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_fragment_notification_to_fragment_notification_pointShop);
+            }
+        });
+
+        return view;
     }
-
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
+
 }

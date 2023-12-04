@@ -48,7 +48,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MypageFragment extends Fragment {
-    private String serverUrl = "http://15.164.103.132:4000/user/mypage";
+    private String serverUrl = "http://13.124.143.232:4000/user/mypage";
     private OkHttpClient client = new OkHttpClient();
     private String UserId;
 

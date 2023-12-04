@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_dashboard"
+    app:startDestination="@id/dashboardF">
+
+    <fragment
+        android:id="@+id/dashboardF"
+        android:name="com.example.home_training.ui.dashboard.DashboardFragment"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardF_to_dashboardW"
+            app:destination="@id/dashboardW" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dashboardW"
+        android:name="com.example.home_training.ui.dashboard.DashboardWrite"
+        tools:layout="@layout/fragment_dashboard_write">
+        <action
+            android:id="@+id/action_dashboardW_to_dashboardF"
+            app:destination="@id/dashboardF" />
+    </fragment>
+</navigation>

@@ -1,24 +1,49 @@
 package com.example.home_training.ui.dashboard;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.home_training.R;
-import com.example.home_training.databinding.FragmentDashboardBinding;
+import com.example.home_training.ui.login.Signup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,116 +54,130 @@ import retrofit2.http.POST;
 
 public class DashboardFragment extends Fragment {
 
+    private String UserId;
+
     private ListView listView;
     private List<DashboardPost> posts;
+    private ArrayList<String> postTitles;
+    private ArrayList<String> postContent;
+    private String selectedPost;
+    private String comTitle, comContent, comId;
     private OkHttpClient client;
-    private String serverUrl = "http://15.164.103.132:4000/user/community";
+    private Button textWrite;
+    private String serverUrl = "http://13.124.143.232:4000/community/inquiry";
 
-
+    @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        client = new OkHttpClient();
+        textWrite = view.findViewById(R.id.writeText);
 
-        Request request = new Request.Builder()
-                .url(serverUrl)
-                .build();
+        listView = view.findViewById(R.id.communityBoard);
+        postTitles = new ArrayList<>();
 
-        client.newCall(request).enqueue(new Callback(){
+        Intent intent = getActivity().getIntent();
+
+        // 인텐트로부터 데이터 가져오기
+        UserId = intent.getStringExtra("userId");
+
+        Log.i(TAG, "시작");
+        FetchPosts();
+
+        // 리스트뷰의 항목 클릭 이벤트 설정
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                // DashboardDetail 액티비티로 이동
+                Intent intent = new Intent(getActivity(), DashboardDetail.class);
+                intent.putStringArrayListExtra("selectedPost", postContent); // 선택된 항목의 데이터를 전달
+                startActivity(intent);
+            }
+        });
+
+        textWrite.setOnClickListener(new View.OnClickListener() {
 
             @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DashboardWrite.class);
+                intent.putExtra("userId", UserId);
+                startActivity(intent);
+            }
+        });
+        return view;
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void FetchPosts() {
+        Log.i(TAG, "FetchPosts 시작");
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(serverUrl) // 실제 API의 엔드포인트로 변경
+                .build();
+
+        Log.i(TAG, "request 작동");
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
             public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "통신 오류" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Log.e(TAG, "통신 실패");
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
-                    String responseBody = response.body().string();
-                    posts = parsePostJson(responseBody);
+                    try {
+                        String responseBody = response.body().string();
+                        // JSON 배열 파싱
+                        JSONArray jsonArray = new JSONArray(responseBody);
+                        Log.i(TAG, "onResponse 작동");
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            listView = view.findViewById(R.id.communityBoard);
-                            PostAdapter adapter = new PostAdapter(getActivity(), posts);
-                            listView.setAdapter(adapter);
+                        // JSONArray에서 title, id, content 추출
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String title = jsonObject.getString("title");
+                            String id = jsonObject.getString("id");
+                            String content = jsonObject.getString("content");
+                            postTitles.add(title + "\n" + id);
 
-                            //리스트뷰 아이템 클릭 이벤트 처리
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    String postId = posts.get(position).getId();
-                                    Request postDetailRequest = new Request.Builder()
-                                            .url(serverUrl+ "/" + postId)
-                                            .build();
 
-                                    client.newCall(postDetailRequest).enqueue(new Callback() {
-                                        @Override
-                                        public void onFailure(Call call, IOException e) {
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Toast.makeText(getActivity(), "통신 오류" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onResponse(Call call, Response response) throws IOException {
-                                            if(response.isSuccessful()){
-                                                String postDetailBody = response.body().string();
-                                                DashboardPost selectedPost = (DashboardPost) parsePostJson(postDetailBody);
-
-                                                getActivity().runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Intent intent = new Intent(getActivity(), DashboardDetail.class);
-                                                        intent.putExtra("post", (CharSequence) selectedPost);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }else{
-                                                getActivity().runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Toast.makeText(getActivity(), "게시글을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                                }
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                // 데이터를 가져온 후 리스트뷰에 표시
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                                        android.R.layout.simple_list_item_1, postTitles);
+                                listView.setAdapter(adapter);
                             });
                         }
-                    });
-                }else{
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "게시글 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "onResponse는 작동 되나 배열 파싱 실패");
+                        e.printStackTrace();
+                    }
 
+                }
             }
         });
-
-        return view;
     }
+    @SuppressLint("RestrictedApi")
+    private void parseJsonData(String jsonData){
+        try {
+            JSONArray jsonArray = new JSONArray(jsonData);
+            Log.i(TAG, "받아오기 성공");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject post = jsonArray.getJSONObject(i);
+                String title = post.getString("title");
+                String content = post.getString("content");
+                String author = post.getString("id");  // 서버에서 제공하는 경우에만 사용
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    private List<DashboardPost> parsePostJson(String json){
-        return null;
+                // 여기서 필요한 정보를 가지고 작업 (예: 리스트에 추가)
+                postTitles.add(title + "\n" + author);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

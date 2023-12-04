@@ -9,7 +9,7 @@ public class DashboardPost {
     private String id;
     private List<String> comments;
 
-    public void Post(String title, String content){
+    public void Post(String title, String content, String id){
         this.title = title;
         this.content = content;
         this.id = id;

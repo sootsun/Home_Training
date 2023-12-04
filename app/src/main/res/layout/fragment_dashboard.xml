@@ -5,8 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment"
-    android:orientation="vertical">
+    android:id="@+id/dashboardFragment"
+    >
 
+
+    <LinearLayout
+        android:id="@+id/nav_host_dashboard_fragment"
+        android:name="androidx.navigation.fragment.DashboardFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_dashboard">
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +32,7 @@
         <ListView
             android:id="@+id/communityBoard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:divider="@color/dark_orange"
             android:dividerHeight="0.5dp"
             android:padding="16dp"
@@ -30,17 +40,20 @@
             android:layout_weight="1"
             />
 
-    <android.widget.Button
-        android:id="@+id/writeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/bin_orange"
-        android:text="  글 작성하기  "
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        app:iconTint="#00915700"
-        android:layout_marginBottom="20dp">
+        <android.widget.Button
+            android:id="@+id/writeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bin_orange"
+            android:text="  글 작성하기  "
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            app:iconTint="#00915700"
+            android:layout_marginBottom="100dp">
 
-    </android.widget.Button>
+        </android.widget.Button>
+
+    </LinearLayout>
+
 </LinearLayout>
