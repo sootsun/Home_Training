@@ -176,9 +176,11 @@
                         android:layout_marginRight="10dp"
                         android:background="@color/white"
                         android:ems="10"
-                        android:hint="년(0000)"
+                        android:hint="   년(0000)"
+                        android:textColorHint="@color/gray"
                         android:inputType="textPersonName"
-                        android:text=""/>
+                        android:text=""
+                        android:textColor="@color/black"/>
 
                     <EditText
                         android:id="@+id/signBirth2"
@@ -188,9 +190,11 @@
                         android:layout_marginRight="10dp"
                         android:background="@color/white"
                         android:ems="10"
-                        android:hint="월"
+                        android:hint="   월"
+                        android:textColorHint="@color/gray"
                         android:inputType="textPersonName"
-                        android:text=""/>
+                        android:text=""
+                        android:textColor="@color/black"/>
 
                     <EditText
                         android:id="@+id/signBirth3"
@@ -199,9 +203,11 @@
                         android:layout_marginBottom="20dp"
                         android:background="@color/white"
                         android:ems="10"
-                        android:hint="일"
+                        android:hint="   일"
+                        android:textColorHint="@color/gray"
                         android:inputType="textPersonName"
-                        android:text=""/>
+                        android:text=""
+                        android:textColor="@color/black"/>
 
                 </LinearLayout>
 

@@ -77,7 +77,7 @@ public class DashboardWrite extends AppCompatActivity {
         String MyId = getIntent().getStringExtra("userId");
 
 
-        String serverUrl = "http://13.124.143.232:4000/community/posts";
+        String serverUrl = "http://52.79.239.35:4000/community/posts";
 
         FormBody formBody = new FormBody.Builder()
                 .add("id", MyId)
@@ -111,6 +111,11 @@ public class DashboardWrite extends AppCompatActivity {
                         public void run() {
                             if(success){
                                 Log.i(TAG, String.valueOf(postid));
+
+                                DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager().findFragmentByTag("dashboardFragmentTag");
+                                if (dashboardFragment != null) {
+                                    dashboardFragment.updateData();
+                                }
                                 navigateToDashboardFragment();
                             }else{
                                 Log.i(TAG, "실패");
@@ -124,12 +129,9 @@ public class DashboardWrite extends AppCompatActivity {
         });
     }
     private void navigateToDashboardFragment() {
+
         // DashboardFragment로 이동하는 코드
-        DashboardFragment dashboardFragment = new DashboardFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.dashboardWrite, dashboardFragment)
-                .addToBackStack(null)
-                .commit();
+        finish();
     }
 
 }

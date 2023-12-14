@@ -32,7 +32,7 @@ import okhttp3.Response;
 
 public class FindPassword extends AppCompatActivity {
 
-    private String serverUrl = "http://13.124.143.232:4000/user";
+    private String serverUrl = "http://52.79.239.35:4000/user";
     private OkHttpClient client = new OkHttpClient();
 
     EditText checkid, checkname, newPW, newPW2;

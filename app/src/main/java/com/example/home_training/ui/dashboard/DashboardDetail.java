@@ -1,8 +1,11 @@
 package com.example.home_training.ui.dashboard;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,13 +21,13 @@ import com.example.home_training.R;
 import java.util.ArrayList;
 
 public class DashboardDetail extends AppCompatActivity {
-    private TextView title, content, id;
+    private TextView title, content, id, back3;
     private ListView comments;
     private EditText commentEdit;
     private Button addComment;
-    private String serverUrl = "http://13.124.143.232:4000/community/inquiry";
+    private String serverUrl = "http://52.79.239.35:4000/community/inquiry";
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "RestrictedApi"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +43,17 @@ public class DashboardDetail extends AppCompatActivity {
         commentEdit = findViewById(R.id.commentEdit);
         addComment = findViewById(R.id.addCommentButton);
 
+        back3 = findViewById(R.id.back);
+        back3.setOnClickListener(v -> onBackPressed());
+
+        String Title = getIntent().getStringExtra("clickedTitle");
+        String Id = getIntent().getStringExtra("clickedId");
+        String Content = getIntent().getStringExtra("clickedContent");
+
         //게시글 표시
-        title.setText(selectedPost.get(0));
-        id.setText("작성자 : " + selectedPost.get(1));
-        content.setText(selectedPost.get(2));
+        title.setText(Title);
+        id.setText("작성자 : " + Id);
+        content.setText(Content);
 
 
         /*

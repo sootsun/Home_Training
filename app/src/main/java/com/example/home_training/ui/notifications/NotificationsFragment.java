@@ -14,8 +14,10 @@ import androidx.navigation.Navigation;
 
 import com.example.home_training.R;
 import com.example.home_training.databinding.FragmentNotificationsBinding;
+import com.example.home_training.ui.dashboard.DashboardWrite;
 
 public class NotificationsFragment extends Fragment {
+    private String UserId;
 
     private TextView notification, event, pointShop;
 
@@ -28,24 +30,33 @@ public class NotificationsFragment extends Fragment {
         event = view.findViewById(R.id.event);
         pointShop = view.findViewById(R.id.point_shop);
 
+        Intent intent = getActivity().getIntent();
+
+        // 인텐트로부터 데이터 가져오기
+        UserId = intent.getStringExtra("userId");
+
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent4 = new Intent(getActivity(), NotificationNotice.class);
+                startActivity(intent4);
             }
         });
 
         event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent5 = new Intent(getActivity(), NotificationEvent.class);
+                startActivity(intent5);
             }
         });
 
         pointShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_fragment_notification_to_fragment_notification_pointShop);
+                Intent intent = new Intent(getActivity(), NotificationPointShop.class);
+                intent.putExtra("userId", UserId);
+                startActivity(intent);
             }
         });
 

@@ -59,12 +59,13 @@ public class DashboardFragment extends Fragment {
     private ListView listView;
     private List<DashboardPost> posts;
     private ArrayList<String> postTitles;
-    private ArrayList<String> postContent;
+    private ArrayList<String> displayList;
     private String selectedPost;
     private String comTitle, comContent, comId;
     private OkHttpClient client;
     private Button textWrite;
-    private String serverUrl = "http://13.124.143.232:4000/community/inquiry";
+    private ArrayList<ArrayList<String>> postContent = new ArrayList<>();
+    private String serverUrl = "http://52.79.239.35:4000/community/inquiry";
 
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -85,17 +86,6 @@ public class DashboardFragment extends Fragment {
         FetchPosts();
 
         // 리스트뷰의 항목 클릭 이벤트 설정
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                // DashboardDetail 액티비티로 이동
-                Intent intent = new Intent(getActivity(), DashboardDetail.class);
-                intent.putStringArrayListExtra("selectedPost", postContent); // 선택된 항목의 데이터를 전달
-                startActivity(intent);
-            }
-        });
 
         textWrite.setOnClickListener(new View.OnClickListener() {
 
@@ -144,12 +134,21 @@ public class DashboardFragment extends Fragment {
                             String id = jsonObject.getString("id");
                             String content = jsonObject.getString("content");
                             postTitles.add(title + "\n" + id);
+                            ArrayList<String> postItem = new ArrayList<>();
+                            postItem.add(title);
+                            postItem.add(id);
+                            postItem.add(content);
+                            postContent.add(postItem);
 
+                            ArrayList<String> displayList = new ArrayList<>();
+                            for (ArrayList<String> item : postContent) {
+                                displayList.add(item.get(0)); // title만 추가
+                            }
 
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 // 데이터를 가져온 후 리스트뷰에 표시
                                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                                        android.R.layout.simple_list_item_1, postTitles);
+                                        android.R.layout.simple_list_item_1, displayList);
                                 listView.setAdapter(adapter);
                             });
                         }
@@ -161,6 +160,28 @@ public class DashboardFragment extends Fragment {
                 }
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> clickedItem = postContent.get(position);
+                String clickedTitle = clickedItem.get(0);
+                String clickedId = clickedItem.get(1);
+                String clickedContent = clickedItem.get(2);
+
+                // DashboardDetail 액티비티로 이동
+                Intent intent = new Intent(getActivity(), DashboardDetail.class);
+                intent.putExtra("clickedTitle", clickedTitle);
+                intent.putExtra("clickedId", clickedId);
+                intent.putExtra("clickedContent", clickedContent);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void updateData() {
+        // 여기에서 데이터를 다시 불러오거나 갱신하는 작업 수행
+        FetchPosts();
     }
     @SuppressLint("RestrictedApi")
     private void parseJsonData(String jsonData){

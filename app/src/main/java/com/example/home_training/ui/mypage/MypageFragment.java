@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.home_training.R;
+import com.example.home_training.ui.login.LoginActivity;
 import com.example.home_training.ui.login.Signup;
+import com.example.home_training.ui.notifications.NotificationPointShop;
 import com.example.home_training.ui.notifications.NotificationsViewModel;
 
 import org.json.JSONException;
@@ -48,7 +51,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MypageFragment extends Fragment {
-    private String serverUrl = "http://13.124.143.232:4000/user/mypage";
+    private String serverUrl = "http://52.79.239.35:4000/user/mypage";
     private OkHttpClient client = new OkHttpClient();
     private String UserId;
 
@@ -57,6 +60,8 @@ public class MypageFragment extends Fragment {
     private TextView nickname, idCode, level, point;
 
     private ImageView profileImage;
+
+    private Button moveMyItem, logout;
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
@@ -68,10 +73,30 @@ public class MypageFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
 
+        moveMyItem = view.findViewById(R.id.myItems);
+
         // 인텐트로부터 데이터 가져오기
         UserId = intent.getStringExtra("userId");
 
-        Log.i(TAG, UserId);
+        logout = view.findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent2);
+            }
+        });
+
+        // 상품함으로 이동
+        moveMyItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MypageMyItems.class);
+                intent.putExtra("userId", UserId);
+                startActivity(intent);
+            }
+        });
 
         // 닉네임, 레벨, 포인트
         nickname = view.findViewById(R.id.yourNickname);
@@ -107,6 +132,8 @@ public class MypageFragment extends Fragment {
 
                     Log.i(TAG, UserId);
                     Log.i(TAG, userNickname);
+                    Log.i(TAG, uP);
+                    Log.i(TAG, userLevel);
 
                     Handler handler = new Handler(Looper.getMainLooper());
 

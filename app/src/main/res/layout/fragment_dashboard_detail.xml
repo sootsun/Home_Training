@@ -29,7 +29,7 @@
             android:layout_marginRight="44dp"
             android:layout_marginBottom="20dp"
             android:layout_weight="2"
-            android:text="userName"
+            android:text="게시글"
             android:textColor="#FF9800"
             android:textSize="25dp"
             android:textStyle="bold"/>
@@ -65,7 +65,7 @@
             android:id="@+id/contentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:textSize="20sp"
@@ -79,21 +79,24 @@
             android:layout_marginTop="16dp"
             android:divider="@color/dark_orange"
             android:dividerHeight="0.5dp"
-            android:paddingTop="8dp"/>
+            android:paddingTop="8dp"
+            android:visibility="invisible"/>
 
         <EditText
             android:id="@+id/commentEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="댓글을 입력하세요"/>
+            android:hint="댓글을 입력하세요"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/addCommentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="댓글추가"/>
+            android:text="댓글추가"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
